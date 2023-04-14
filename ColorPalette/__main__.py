@@ -137,7 +137,7 @@ def create_pallete(filename, num_colors, display_color=False):
 		else:
 			file_split = file_path[i]
 	file_split = file_split.split('.')
-	if file_split[1] != 'jpg' and file_split[1] != 'png':
+	if file_split[1] not in ['jpg', 'png']:
 		raise("The file must be a jpg or png")
 
 	output_palette = file_prefix + file_split[0] + '_palette.' + file_split[1]
@@ -164,15 +164,10 @@ def get_hex_color(color):
     return '#%02x%02x%02x' % color
 
 def get_text_width(font, text):
-	width = 0
-	for ch in text:
-		width += font.getsize(ch)[0]
-	return width
+	return sum(font.getsize(ch)[0] for ch in text)
 
 def get_text_height(font, text):
-	height = []
-	for ch in text:
-		height.append(font.getsize(ch)[1])
+	height = [font.getsize(ch)[1] for ch in text]
 	return max(height)
 
 @click.command()
